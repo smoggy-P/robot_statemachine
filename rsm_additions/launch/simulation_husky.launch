@@ -2,24 +2,25 @@
 	and Explore Lite -->
 
 <launch>
-	<arg name="world"
-		default="$(find husky_gazebo)/worlds/clearpath_playpen.world" />
-	<arg name="robot_frame" default="base_footprint" />
+	<arg name="world" default="samxl" />
+	<arg name="robot_frame" default="base_link" />
 	<arg name="autonomy_cmd_vel_topic" default="/autonomy/cmd_vel" />
 	<arg name="teleoperation_cmd_vel_topic"
 		default="/teleoperation/cmd_vel" />
 	<arg name="cmd_vel_topic" default="/cmd_vel" />
-	<arg name="joystick_used" default="true" />
+	<arg name="joystick_used" default="false" />
 	<arg name="joystick_topic" default="/joy" />
 	<arg name="calculate_goal_plugin" default="rsm::CalculateGoalState" />
 	<arg name="navigation_plugin" default="rsm::NavigationState" />
 	<arg name="mapping_plugin" default="rsm::RealsenseMappingState" />
 	<arg name="waypoint_routines" default="['Reversing']" />
 	<arg name="rviz" default="true" />
-
+<!-- 
 	<include file="$(find rsm_additions)/launch/gazebo_husky.launch">
 		<arg name="world_file" value="$(arg world)" />
-	</include>
+	</include> -->
+
+	<include file="$(find cor_mdp_husky_gazebo)/launch/cor_mdp_husky_gazebo.launch" pass_all_args="True" />
 
 	<include file="$(find rsm_core)/launch/rsm.launch">
 		<arg name="update_frequency" value="20" />
@@ -61,7 +62,7 @@
 		output="screen">
 		<param name="robot_frame" value="$(arg robot_frame)" />
 		<param name="map_frame" value="odom" />
-		<param name="odom_topic" value="/ground_truth/state" />
+		<param name="odom_topic" value="/husky_velocity_controller/odom" />
 	</node>	
 
 	<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping"
